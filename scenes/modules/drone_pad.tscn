@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://b5uoty6mpkt77"]
+
+[ext_resource type="Texture2D" uid="uid://cnirgtr82eian" path="res://assets/objects/hab/drone_pad/drone_pad_1.png" id="1_4n5ex"]
+[ext_resource type="Script" path="res://scripts/modules/drone_pad.gd" id="1_w1dri"]
+[ext_resource type="Texture2D" uid="uid://cfyrtq0j587pn" path="res://assets/objects/hab/drone_pad/drone_pad.png" id="2_ifiix"]
+[ext_resource type="Texture2D" uid="uid://d1m86e4nhsh8e" path="res://assets/objects/light/uniform_light.png" id="3_vdh0y"]
+[ext_resource type="Texture2D" uid="uid://q1hoixe7hbu0" path="res://assets/objects/light/uniform_green_light.png" id="4_6b45q"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_sfhoe"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dh2if"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4n5ex")
+}],
+"loop": true,
+"name": &"charging",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ifiix")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wjma5"]
+radius = 360.0
+
+[node name="DronePad" type="Area2D" groups=["drone_pads", "habs"]]
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_w1dri")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_sfhoe")
+sprite_frames = SubResource("SpriteFrames_dh2if")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wjma5")
+
+[node name="NormalLight" type="PointLight2D" parent="."]
+texture = ExtResource("3_vdh0y")
+texture_scale = 2.0
+
+[node name="ChargingLight" type="PointLight2D" parent="."]
+texture = ExtResource("4_6b45q")
+texture_scale = 2.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

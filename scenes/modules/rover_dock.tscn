@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://4uoemylqvjyi"]
+
+[ext_resource type="Script" path="res://scripts/modules/rover_dock.gd" id="1_8ucdq"]
+[ext_resource type="Texture2D" uid="uid://dfsg481lwwyca" path="res://assets/objects/hab/rover_dock/rover_dock_1.png" id="2_73dhw"]
+[ext_resource type="Texture2D" uid="uid://c0tlon7kkmfuv" path="res://assets/objects/hab/rover_dock/rover_dock.png" id="3_klk3x"]
+[ext_resource type="Texture2D" uid="uid://d1m86e4nhsh8e" path="res://assets/objects/light/uniform_light.png" id="4_ae87p"]
+[ext_resource type="Texture2D" uid="uid://q1hoixe7hbu0" path="res://assets/objects/light/uniform_green_light.png" id="5_yksch"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4f2pr"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6m6gv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_73dhw")
+}],
+"loop": true,
+"name": &"charging",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_klk3x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_c7lp0"]
+polygon = PackedVector2Array(-55, -94, -55, 94, 43, 94, 49, 90, 53, 86, 55, 81, 55, 58, -21, 58, -31, 53, -37, 42, -37, -44, -32, -54, -20, -59, 55, -59, 55, -80, 52, -87, 44, -93, 35, -94)
+
+[node name="RoverDock" type="StaticBody2D" groups=["habs", "vehicle_docks"]]
+script = ExtResource("1_8ucdq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_4f2pr")
+sprite_frames = SubResource("SpriteFrames_6m6gv")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-55, -94, 35, -94, 44, -93, 52, -87, 55, -80, 55, -59, -20, -59, -32, -54, -37, -44, -37, 42, -31, 53, -21, 58, 55, 58, 55, 81, 53, 86, 49, 90, 43, 94, -55, 94)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_c7lp0")
+occluder_light_mask = 3
+
+[node name="NormalLight" type="PointLight2D" parent="."]
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("4_ae87p")
+
+[node name="ChargingLight" type="PointLight2D" parent="."]
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("5_yksch")
+
+[node name="RoverDockArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RoverDockArea"]
+polygon = PackedVector2Array(-37, -44, -32, -54, -20, -59, 74, -59, 83, -55, 89, -47, 91, -39, 91, 39, 89, 47, 82, 54, 76, 58, -21, 58, -31, 53, -37, 42)
+
+[connection signal="body_entered" from="RoverDockArea" to="." method="_on_rover_dock_area_body_entered"]
+[connection signal="body_exited" from="RoverDockArea" to="." method="_on_rover_dock_area_body_exited"]

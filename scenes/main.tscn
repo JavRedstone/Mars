@@ -1,0 +1,127 @@
+[gd_scene load_steps=14 format=3 uid="uid://bje5dc020xyhu"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_uxfqb"]
+[ext_resource type="PackedScene" uid="uid://cwxrgiw2wc5hb" path="res://scenes/player.tscn" id="2_7oj7y"]
+[ext_resource type="PackedScene" uid="uid://dl5c004gpjgrq" path="res://scenes/rock.tscn" id="3_go1s4"]
+[ext_resource type="PackedScene" uid="uid://dbens8tfuthmp" path="res://scenes/rover.tscn" id="4_di8mr"]
+[ext_resource type="PackedScene" uid="uid://cc7n77tm7lqxk" path="res://scenes/drone.tscn" id="5_runek"]
+[ext_resource type="PackedScene" uid="uid://xr1lsmm5pvi1" path="res://scenes/hab.tscn" id="5_tycp6"]
+[ext_resource type="Texture2D" uid="uid://dwt4pjeu67wp7" path="res://assets/objects/world_border/world_border.png" id="6_1gfml"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8x81n"]
+light_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_iss58"]
+offsets = PackedFloat32Array(0, 0.303318, 0.834123)
+colors = PackedColorArray(0.498071, 0.198396, 0.0544756, 1, 0.713775, 0.251378, 0.0514272, 1, 0.871001, 0.468877, 0.0517072, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_32jw1"]
+noise_type = 3
+domain_warp_enabled = true
+domain_warp_frequency = 0.01
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xwsql"]
+width = 1024
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_iss58")
+noise = SubResource("FastNoiseLite_32jw1")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bb8iu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_1gfml")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wi0b4"]
+polygon = PackedVector2Array(-360, 358, -334, 332, 334, 332, 360, 358)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_uxfqb")
+player_scene = ExtResource("2_7oj7y")
+rock_scene = ExtResource("3_go1s4")
+rover_scene = ExtResource("4_di8mr")
+drone_scene = ExtResource("5_runek")
+hab_scene = ExtResource("5_tycp6")
+
+[node name="Map" type="TextureRect" parent="."]
+material = SubResource("CanvasItemMaterial_8x81n")
+layout_direction = 1
+offset_left = -25600.0
+offset_top = -25600.0
+offset_right = -24576.0
+offset_bottom = -24576.0
+scale = Vector2(50, 50)
+texture = SubResource("NoiseTexture2D_xwsql")
+stretch_mode = 1
+
+[node name="Sun" type="DirectionalLight2D" parent="."]
+color = Color(1, 1, 0.545098, 1)
+energy = 0.75
+range_z_min = 0
+range_z_max = 0
+max_distance = 1000.0
+
+[node name="WorldBorder" type="StaticBody2D" parent="."]
+texture_filter = 3
+scale = Vector2(65, 65)
+collision_layer = 4294967295
+collision_mask = 4294967295
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="WorldBorder"]
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_bb8iu")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WorldBorder"]
+polygon = PackedVector2Array(-360, -362, -360, 358, 360, 358, 360, -362, 334, -362, 334, -336, 334, 332, -334, 332, -334, -336, 334, -336, 334, -362)
+
+[node name="BottomLightOccluder" type="LightOccluder2D" parent="WorldBorder"]
+occluder = SubResource("OccluderPolygon2D_wi0b4")
+occluder_light_mask = 3
+
+[node name="LeftLightOccluder" type="LightOccluder2D" parent="WorldBorder"]
+position = Vector2(-2, -2)
+rotation = 1.5708
+occluder = SubResource("OccluderPolygon2D_wi0b4")
+occluder_light_mask = 3
+
+[node name="TopLightOccluder" type="LightOccluder2D" parent="WorldBorder"]
+position = Vector2(0, -4)
+rotation = 3.14159
+occluder = SubResource("OccluderPolygon2D_wi0b4")
+occluder_light_mask = 3
+
+[node name="RightLightOccluder" type="LightOccluder2D" parent="WorldBorder"]
+position = Vector2(2, -2)
+rotation = -1.5708
+occluder = SubResource("OccluderPolygon2D_wi0b4")
+occluder_light_mask = 3
+
+[node name="MainScreen" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="HostButton" type="Button" parent="MainScreen"]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Host"
+
+[node name="JoinButton" type="Button" parent="MainScreen"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_right = 38.0
+offset_bottom = 15.5
+grow_vertical = 2
+text = "Join"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="MainScreen/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="MainScreen/JoinButton" to="." method="_on_join_button_pressed"]

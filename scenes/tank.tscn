@@ -1,0 +1,148 @@
+[gd_scene load_steps=14 format=3 uid="uid://db2pvwu461pvs"]
+
+[ext_resource type="Script" path="res://scripts/tank.gd" id="1_0j12b"]
+[ext_resource type="Texture2D" uid="uid://7mgupfs63p2i" path="res://assets/particles/dust/dust.png" id="2_wmf8c"]
+[ext_resource type="Texture2D" uid="uid://dbipo442dtrgp" path="res://assets/objects/tank/tank.png" id="3_6s3cg"]
+[ext_resource type="Texture2D" uid="uid://d0x7qm1c6xxdr" path="res://assets/objects/tank/tank_1.png" id="4_ynoq3"]
+[ext_resource type="Texture2D" uid="uid://dqlsgv0fbccip" path="res://assets/objects/light/wide_direct_light.png" id="5_sd676"]
+[ext_resource type="Texture2D" uid="uid://cve17do580gc4" path="res://assets/objects/light/tail_light.png" id="6_fpk68"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lh0np"]
+light_mode = 2
+
+[sub_resource type="Curve" id="Curve_mlnut"]
+_data = [Vector2(0, 0.518182), 0.0, 0.0, 0, 0, Vector2(0.246988, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_3a0p0"]
+curve = SubResource("Curve_mlnut")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g6pdx"]
+emission_shape = 1
+emission_sphere_radius = 16.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.1
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_3a0p0")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wbvro"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_44qmb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6s3cg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ynoq3")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_aitf6"]
+polygon = PackedVector2Array(-45, -26, -44, -28, -43, -29, -25.5, -29, -25.5, -42.5, -23.5, -44.5, -22, -45, -20.5, -44.5, -18.5, -42.5, -18.5, -29, 18.5, -29, 18.5, -41.5, 19.5, -44.5, 22, -45.5, 24.5, -44.5, 25.5, -42, 25.5, -29, 43, -29, 44, -28, 45, -26, 45, 35, 44, 37, 42, 38, 31.5, 38, 28.5, 42.5, 24, 45, 17, 45, -18, 45, -23.5, 45, -28.5, 42.5, -31.5, 38, -43, 38, -44, 37, -45, 36)
+
+[node name="Tank" type="RigidBody2D" groups=["tanks", "vehicles"]]
+z_index = 1
+z_as_relative = false
+mass = 1000.0
+gravity_scale = 0.0
+script = ExtResource("1_0j12b")
+
+[node name="LeftParticleEmitter" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_lh0np")
+position = Vector2(-70, 0)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_g6pdx")
+texture = ExtResource("2_wmf8c")
+lifetime = 3.0
+fixed_fps = 60
+
+[node name="RightParticleEmitter" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_wbvro")
+position = Vector2(70, 0)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_g6pdx")
+texture = ExtResource("2_wmf8c")
+lifetime = 3.0
+fixed_fps = 60
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_44qmb")
+animation = &"moving"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.25, 0.25)
+polygon = PackedVector2Array(-354, -222, -360, -210, -360, 288, -352, 300, -336, 304, -252, 304, -236, 332, -216, 348, -192, 356, -172, 360, 168, 360, 196, 356, 211.745, 348.128, 228, 340, 239.486, 322.772, 252, 304, 340, 304, 352, 296, 360, 284, 360, -208, 354, -222, 342, -231, 204, -232, 204, -332, 196, -352, 184, -360, 168, -360, 156, -352, 148, -332, 148, -232, -148, -232, -148, -340, -156, -352, -172, -360, -184, -360, -196, -352, -204, -340, -204, -232, -341, -231)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+scale = Vector2(2, 2)
+occluder = SubResource("OccluderPolygon2D_aitf6")
+
+[node name="LeftHeadlight" type="PointLight2D" parent="."]
+rotation = -0.349066
+enabled = false
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("5_sd676")
+offset = Vector2(-52.4, -434)
+texture_scale = 2.0
+
+[node name="RightHeadlight" type="PointLight2D" parent="."]
+position = Vector2(-1, -1)
+rotation = 0.349066
+enabled = false
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("5_sd676")
+offset = Vector2(52.4, -434)
+texture_scale = 2.0
+
+[node name="LeftTailLight" type="PointLight2D" parent="."]
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("6_fpk68")
+offset = Vector2(-74.3, 115)
+texture_scale = 0.25
+
+[node name="RightTailLight" type="PointLight2D" parent="."]
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("6_fpk68")
+offset = Vector2(74.3, 115)
+texture_scale = 0.25
+
+[node name="LeftBulletNode" type="Node2D" parent="."]
+position = Vector2(-44, -90)
+
+[node name="RightBulletNode" type="Node2D" parent="."]
+position = Vector2(44, -90)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

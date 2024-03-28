@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://ooecdovxuvk6"]
+
+[ext_resource type="Script" path="res://scripts/modules/rock_grinder.gd" id="1_bvoca"]
+[ext_resource type="Texture2D" uid="uid://ba2plsy4bdsv5" path="res://assets/objects/hab/rock_grinder/rock_grinder.png" id="2_h2tfv"]
+[ext_resource type="Texture2D" uid="uid://b12qxn2kcfbjf" path="res://assets/objects/hab/rock_grinder/rock_grinder_1.png" id="3_67j8e"]
+[ext_resource type="Texture2D" uid="uid://d1m86e4nhsh8e" path="res://assets/objects/light/uniform_light.png" id="4_ibvd1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_acix2"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1b5r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_h2tfv")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_67j8e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_h2tfv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gwjl"]
+radius = 202.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fcgcr"]
+polygon = PackedVector2Array(0, -72, 18, -70, 35, -63, 51, -51, 62, -37, 70, -18, 72, -1, 70, 16, 63, 34, 53, 49, 36, 62, 19, 68, 0, 72, -21, 69, -39, 60, -55, 47, -65, 32, -69.8182, 18.1818, -73, 0, -70, -18, -62, -37, -50, -52, -37, -63, -19, -70)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q6by1"]
+radius = 360.0
+
+[node name="RockGrinder" type="StaticBody2D" groups=["habs", "rock_grinders"]]
+z_as_relative = false
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_bvoca")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_acix2")
+sprite_frames = SubResource("SpriteFrames_a1b5r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8gwjl")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+scale = Vector2(2.8, 2.8)
+occluder = SubResource("OccluderPolygon2D_fcgcr")
+occluder_light_mask = 3
+
+[node name="RockGrinderArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RockGrinderArea"]
+shape = SubResource("CircleShape2D_q6by1")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+enabled = false
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("4_ibvd1")
+texture_scale = 0.5
+
+[connection signal="body_entered" from="RockGrinderArea" to="." method="_on_rock_grinder_area_body_entered"]
+[connection signal="body_exited" from="RockGrinderArea" to="." method="_on_rock_grinder_area_body_exited"]

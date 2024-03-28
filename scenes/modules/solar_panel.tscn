@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://dckksqvvpj51v"]
+
+[ext_resource type="Script" path="res://scripts/modules/solar_panel.gd" id="1_but8b"]
+[ext_resource type="Texture2D" uid="uid://d2wqcg1j7hgss" path="res://assets/objects/hab/solar_panel/solar_panel.png" id="2_o2xr8"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_oeam3"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qx8u6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_o2xr8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xqkwe"]
+size = Vector2(509.117, 509.117)
+
+[node name="SolarPanel" type="Area2D" groups=["habs", "solar_panels"]]
+z_as_relative = false
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_but8b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_oeam3")
+sprite_frames = SubResource("SpriteFrames_qx8u6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 0.785398
+shape = SubResource("RectangleShape2D_xqkwe")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

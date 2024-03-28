@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://o544kvkk6f6i"]
+
+[ext_resource type="Script" path="res://scripts/modules/farm.gd" id="1_ohclc"]
+[ext_resource type="Texture2D" uid="uid://cdheirj72jvx5" path="res://assets/objects/hab/farm/farm_empty.png" id="2_my8uo"]
+[ext_resource type="Texture2D" uid="uid://b5nldy3hcwqq7" path="res://assets/objects/hab/farm/farm_full.png" id="3_87mvi"]
+[ext_resource type="Texture2D" uid="uid://dsgpomvpiywyf" path="res://assets/objects/hab/farm/farm_wilted.png" id="4_kt7fs"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_v65aa"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jg6xm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_my8uo")
+}],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_87mvi")
+}],
+"loop": true,
+"name": &"full",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_kt7fs")
+}],
+"loop": true,
+"name": &"wilted",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q4epb"]
+radius = 360.0
+
+[node name="Farm" type="Area2D" groups=["farms", "habs"]]
+z_as_relative = false
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_ohclc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_v65aa")
+sprite_frames = SubResource("SpriteFrames_jg6xm")
+animation = &"empty"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_q4epb")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

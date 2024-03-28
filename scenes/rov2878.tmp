@@ -1,0 +1,90 @@
+[gd_scene load_steps=10 format=3 uid="uid://dbens8tfuthmp"]
+
+[ext_resource type="Script" path="res://scripts/rover.gd" id="1_lo5yt"]
+[ext_resource type="Texture2D" uid="uid://bt2dfm2huffno" path="res://assets/objects/rover/rover.png" id="1_v3yps"]
+[ext_resource type="Texture2D" uid="uid://bh1wk8xi21s22" path="res://assets/objects/rover/rover_1.png" id="3_udkfp"]
+[ext_resource type="Texture2D" uid="uid://7mgupfs63p2i" path="res://assets/particles/dust/dust.png" id="4_issen"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ij6mw"]
+rough = true
+absorbent = true
+
+[sub_resource type="Curve" id="Curve_mlnut"]
+_data = [Vector2(0, 0.518182), 0.0, 0.0, 0, 0, Vector2(0.246988, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_3a0p0"]
+curve = SubResource("Curve_mlnut")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g6pdx"]
+emission_shape = 1
+emission_sphere_radius = 16.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.2
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_3a0p0")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vmxtu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v3yps")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v3yps")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_udkfp")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 15.0
+}]
+
+[node name="Rover" type="RigidBody2D" groups=["rovers"]]
+mass = 2000.0
+physics_material_override = SubResource("PhysicsMaterial_ij6mw")
+gravity_scale = 0.0
+script = ExtResource("1_lo5yt")
+
+[node name="LeftParticleEmitter" type="GPUParticles2D" parent="."]
+position = Vector2(-150, 0)
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_g6pdx")
+texture = ExtResource("4_issen")
+lifetime = 3.0
+fixed_fps = 60
+
+[node name="RightParticleEmitter" type="GPUParticles2D" parent="."]
+position = Vector2(150, 0)
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_g6pdx")
+texture = ExtResource("4_issen")
+lifetime = 3.0
+fixed_fps = 60
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_vmxtu")
+animation = &"moving"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-354, -222, -360, -210, -360, 219, -353, 228, -341, 236, -224, 236, -212, 228, -188, 232, -187, 320, -172, 349, -147, 359, 137, 359, 170, 349, 186, 322, 187, 231, 212, 228, 223, 237, 342, 237, 354, 227, 360, 216, 360, -208, 354, -222, 342, -231, 280, -231, 319, -298, 319, -310, 314, -317, 250, -354, 241, -354, 232, -347, 138, -184, -137, -186, -232, -347, -241, -353, -250, -353, -315, -317, -319, -307, -319, -298, -280, -231, -341, -231)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

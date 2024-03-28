@@ -1,0 +1,296 @@
+[gd_scene load_steps=24 format=3 uid="uid://bsx3jopqtiv18"]
+
+[ext_resource type="Script" path="res://scripts/ui.gd" id="1_b8as5"]
+[ext_resource type="Texture2D" uid="uid://b70yyh4gs8x0g" path="res://assets/ui/battery_bar/battery_bar_under.png" id="2_43ogd"]
+[ext_resource type="PackedScene" uid="uid://xr1lsmm5pvi1" path="res://scenes/hab.tscn" id="2_3717x"]
+[ext_resource type="PackedScene" uid="uid://c6mmdd6j556a3" path="res://scenes/suit.tscn" id="2_t5jti"]
+[ext_resource type="Texture2D" uid="uid://begajc5ik4nsi" path="res://assets/ui/battery_bar/battery_bar_progress.png" id="3_0tbmi"]
+[ext_resource type="Texture2D" uid="uid://culvgmoo55juu" path="res://assets/ui/battery_bar/battery_bar_over.png" id="3_rglyf"]
+[ext_resource type="Texture2D" uid="uid://b7jt0ejjmoagt" path="res://assets/ui/oxygen_level_bar/oxygen_level_bar_under.png" id="5_7djh5"]
+[ext_resource type="Texture2D" uid="uid://dpgsg6071oxtu" path="res://assets/ui/oxygen_level_bar/oxygen_level_bar_over.png" id="6_1wyte"]
+[ext_resource type="Texture2D" uid="uid://cdkd5q4fcqath" path="res://assets/ui/oxygen_level_bar/oxygen_level_bar_progress.png" id="7_msumw"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_a0nas"]
+device = -1
+keycode = 81
+unicode = 113
+
+[sub_resource type="Shortcut" id="Shortcut_g2cr0"]
+events = [SubResource("InputEventKey_a0nas")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_sno5h"]
+device = -1
+keycode = 81
+unicode = 113
+
+[sub_resource type="Shortcut" id="Shortcut_1yt3o"]
+events = [SubResource("InputEventKey_sno5h")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_b6li8"]
+device = -1
+keycode = 70
+unicode = 102
+
+[sub_resource type="Shortcut" id="Shortcut_fmkpw"]
+events = [SubResource("InputEventKey_b6li8")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_quybq"]
+device = -1
+keycode = 70
+unicode = 102
+
+[sub_resource type="Shortcut" id="Shortcut_jtl7o"]
+events = [SubResource("InputEventKey_quybq")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_sl048"]
+device = -1
+keycode = 82
+unicode = 114
+
+[sub_resource type="Shortcut" id="Shortcut_6cc4w"]
+events = [SubResource("InputEventKey_sl048")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_xba27"]
+device = -1
+keycode = 82
+unicode = 114
+
+[sub_resource type="Shortcut" id="Shortcut_bh1mt"]
+events = [SubResource("InputEventKey_xba27")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_xgnq4"]
+device = -1
+keycode = 67
+unicode = 99
+
+[sub_resource type="Shortcut" id="Shortcut_cs3ou"]
+events = [SubResource("InputEventKey_xgnq4")]
+
+[node name="UI" type="Node2D"]
+script = ExtResource("1_b8as5")
+hab_scene = ExtResource("2_3717x")
+suit_scene = ExtResource("2_t5jti")
+
+[node name="Actions" type="CanvasLayer" parent="."]
+
+[node name="Vehicle" type="CanvasLayer" parent="Actions"]
+
+[node name="DriveVehicleButton" type="Button" parent="Actions/Vehicle"]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -38.5
+offset_top = -31.0
+offset_right = 38.5
+grow_horizontal = 2
+grow_vertical = 0
+shortcut = SubResource("Shortcut_g2cr0")
+text = "Drive [Q]
+"
+
+[node name="ExitVehicleButton" type="Button" parent="Actions/Vehicle"]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -31.0
+offset_right = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+shortcut = SubResource("Shortcut_1yt3o")
+text = "Exit [Q]
+"
+
+[node name="Suit" type="CanvasLayer" parent="Actions"]
+
+[node name="WearSuitButton" type="Button" parent="Actions/Suit"]
+visible = false
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 72.0
+grow_vertical = 0
+shortcut = SubResource("Shortcut_fmkpw")
+text = "Wear [F]"
+
+[node name="TakeOffSuitButton" type="Button" parent="Actions/Suit"]
+visible = false
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 127.0
+grow_vertical = 0
+shortcut = SubResource("Shortcut_jtl7o")
+text = "Take off suit [F]"
+
+[node name="ModuleAdditionButton" type="MenuButton" parent="Actions"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -63.36
+offset_right = 62.64
+offset_bottom = 31.0
+grow_horizontal = 2
+shortcut = SubResource("Shortcut_6cc4w")
+text = "Add module [R]"
+flat = false
+
+[node name="StarterAdditionButton" type="Button" parent="Actions"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -15.5
+offset_right = 70.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+shortcut = SubResource("Shortcut_bh1mt")
+text = "Place home base [R]"
+
+[node name="DestroyRockButton" type="Button" parent="Actions"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = 30.0
+offset_right = 70.0
+offset_bottom = 61.0001
+grow_horizontal = 2
+grow_vertical = 2
+shortcut = SubResource("Shortcut_cs3ou")
+text = "Destroy Rock [C]"
+
+[node name="Info" type="CanvasLayer" parent="."]
+
+[node name="Player" type="CanvasLayer" parent="Info"]
+visible = false
+offset = Vector2(0, 15)
+transform = Transform2D(1, 0, 0, 1, 0, 15)
+
+[node name="Label" type="Label" parent="Info/Player"]
+offset_left = 15.0
+offset_right = 55.0
+offset_bottom = 26.0
+text = "Self"
+uppercase = true
+
+[node name="BatteryProgressBar" type="TextureProgressBar" parent="Info/Player"]
+offset_left = 75.0
+offset_right = 795.0
+offset_bottom = 180.0
+scale = Vector2(0.15, 0.15)
+value = 100.0
+texture_under = ExtResource("2_43ogd")
+texture_over = ExtResource("3_rglyf")
+texture_progress = ExtResource("3_0tbmi")
+
+[node name="OxygenLevelProgressBar" type="TextureProgressBar" parent="Info/Player"]
+offset_left = 200.0
+offset_right = 920.0
+offset_bottom = 180.0
+scale = Vector2(0.15, 0.15)
+value = 100.0
+texture_under = ExtResource("5_7djh5")
+texture_over = ExtResource("6_1wyte")
+texture_progress = ExtResource("7_msumw")
+
+[node name="Hab" type="CanvasLayer" parent="Info"]
+visible = false
+offset = Vector2(0, 50)
+transform = Transform2D(1, 0, 0, 1, 0, 50)
+
+[node name="Label" type="Label" parent="Info/Hab"]
+offset_left = 15.0
+offset_right = 55.0
+offset_bottom = 26.0
+text = "Hab"
+uppercase = true
+
+[node name="BatteryProgressBar" type="TextureProgressBar" parent="Info/Hab"]
+offset_left = 75.0
+offset_right = 795.0
+offset_bottom = 180.0
+scale = Vector2(0.15, 0.15)
+value = 100.0
+texture_under = ExtResource("2_43ogd")
+texture_over = ExtResource("3_rglyf")
+texture_progress = ExtResource("3_0tbmi")
+
+[node name="OxygenLevelProgressBar" type="TextureProgressBar" parent="Info/Hab"]
+offset_left = 200.0
+offset_right = 920.0
+offset_bottom = 180.0
+scale = Vector2(0.15, 0.15)
+value = 100.0
+texture_under = ExtResource("5_7djh5")
+texture_over = ExtResource("6_1wyte")
+texture_progress = ExtResource("7_msumw")
+
+[node name="Vehicle" type="CanvasLayer" parent="Info"]
+visible = false
+offset = Vector2(0, 85)
+transform = Transform2D(1, 0, 0, 1, 0, 85)
+
+[node name="Label" type="Label" parent="Info/Vehicle"]
+offset_left = 15.0
+offset_right = 55.0
+offset_bottom = 26.0
+text = "veh"
+uppercase = true
+
+[node name="BatteryProgressBar" type="TextureProgressBar" parent="Info/Vehicle"]
+offset_left = 75.0
+offset_right = 795.0
+offset_bottom = 180.0
+scale = Vector2(0.15, 0.15)
+value = 100.0
+texture_under = ExtResource("2_43ogd")
+texture_over = ExtResource("3_rglyf")
+texture_progress = ExtResource("3_0tbmi")
+
+[node name="Inventory" type="CanvasLayer" parent="."]
+
+[node name="InventoryList" type="ItemList" parent="Inventory"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -192.0
+offset_bottom = 116.0
+grow_horizontal = 0
+grow_vertical = 2
+allow_reselect = true
+item_count = 4
+item_0/text = "Inventory"
+item_0/selectable = false
+item_1/text = "Martian Soil | 0"
+item_1/selectable = false
+item_1/disabled = true
+item_2/text = "Martian Metal | 0"
+item_2/selectable = false
+item_2/disabled = true
+item_3/text = "Martian Rock | 0"
+item_3/selectable = false
+item_3/disabled = true
+
+[connection signal="pressed" from="Actions/Vehicle/DriveVehicleButton" to="." method="_on_drive_vehicle_button_pressed"]
+[connection signal="pressed" from="Actions/Vehicle/ExitVehicleButton" to="." method="_on_exit_vehicle_button_pressed"]
+[connection signal="pressed" from="Actions/Suit/WearSuitButton" to="." method="_on_wear_suit_button_pressed"]
+[connection signal="pressed" from="Actions/Suit/TakeOffSuitButton" to="." method="_on_take_off_suit_button_pressed"]
+[connection signal="pressed" from="Actions/ModuleAdditionButton" to="." method="_on_module_addition_button_pressed"]
+[connection signal="pressed" from="Actions/StarterAdditionButton" to="." method="_on_starter_addition_button_pressed"]
+[connection signal="pressed" from="Actions/DestroyRockButton" to="." method="_on_destroy_rock_button_pressed"]

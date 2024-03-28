@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://c6mmdd6j556a3"]
+
+[ext_resource type="Script" path="res://scripts/suit.gd" id="1_6p0bk"]
+[ext_resource type="Texture2D" uid="uid://bgby4pbw7x3vn" path="res://assets/objects/player/player_1.png" id="2_t6crm"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nl8gn"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sp3eg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_t6crm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3ngy2"]
+polygon = PackedVector2Array(-36, -28, -35, -31, -33, -34, -29, -36, -25, -35, -22, -32, -21, -31, -19, -24, -11, -29, -3, -30, 6, -30, 16, -26, 19, -24, 23, -34, 26, -36, 30, -36, 33, -34, 36, -29, 30, -6, 31, 4, 28, 13, 24, 20, 18, 25, 18, 31, 16, 35, 12, 36, -14, 36, -17, 34, -18, 30, -18, 25, -25, 19, -28, 12, -30, 5, -31, -3, -30, -6)
+
+[node name="Suit" type="RigidBody2D" groups=["suits"]]
+mass = 40.0
+script = ExtResource("1_6p0bk")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_nl8gn")
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_sp3eg")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = -1.5708
+polygon = PackedVector2Array(-36, -14.0001, -36, 14, -35.0001, 15.9999, -31.0001, 17.9999, -25.0001, 17.9999, -21.0001, 22.9999, -15.0001, 26.9999, -9.00011, 30, -0.00011222, 31, 6.99989, 30, 27.9999, 36.0001, 31, 35, 34, 33, 35.9999, 30.0001, 35.9999, 26.0001, 33.9999, 23.0001, 28.9999, 21.0001, 23.9999, 19.0001, 27, 14, 30, 7, 31, 0, 30, -7, 28, -13, 25, -18, 24.0001, -18.9999, 31.0001, -20.9999, 34.0001, -22.9999, 35.0001, -24.9999, 36, -28, 36, -31, 34, -34, 29.0001, -35.9999, 25.0001, -34.9999, 6.00011, -30, 0.00011222, -31, -9, -30, -16, -27, -21, -24, -24.9999, -18.0001, -29.9999, -18.0001, -33.9999, -17.0001)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_3ngy2")
+occluder_light_mask = 3

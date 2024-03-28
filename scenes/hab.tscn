@@ -1,0 +1,29 @@
+[gd_scene load_steps=13 format=3 uid="uid://xr1lsmm5pvi1"]
+
+[ext_resource type="Script" path="res://scripts/hab.gd" id="1_ayqer"]
+[ext_resource type="PackedScene" uid="uid://isi6vqvmtjrk" path="res://scenes/modules/habitation_module.tscn" id="2_0dk7t"]
+[ext_resource type="PackedScene" uid="uid://cdvldk61ngwv1" path="res://scenes/modules/airlock.tscn" id="3_8uysj"]
+[ext_resource type="PackedScene" uid="uid://dckksqvvpj51v" path="res://scenes/modules/solar_panel.tscn" id="4_4oeur"]
+[ext_resource type="PackedScene" uid="uid://4uoemylqvjyi" path="res://scenes/modules/rover_dock.tscn" id="4_ylgtq"]
+[ext_resource type="PackedScene" uid="uid://ooecdovxuvk6" path="res://scenes/modules/rock_grinder.tscn" id="5_dfjcb"]
+[ext_resource type="PackedScene" uid="uid://di08rvubifpgs" path="res://scenes/modules/oxygenator.tscn" id="5_p3sg6"]
+[ext_resource type="PackedScene" uid="uid://o544kvkk6f6i" path="res://scenes/modules/farm.tscn" id="6_1fllo"]
+[ext_resource type="PackedScene" uid="uid://necib3w0vm5k" path="res://scenes/modules/rtg.tscn" id="8_u7gu6"]
+[ext_resource type="PackedScene" uid="uid://b5uoty6mpkt77" path="res://scenes/modules/drone_pad.tscn" id="9_bf8cw"]
+[ext_resource type="PackedScene" uid="uid://dq14mle3wcpfc" path="res://scenes/modules/suit_supplier.tscn" id="11_gd1mg"]
+[ext_resource type="PackedScene" uid="uid://dbens8tfuthmp" path="res://scenes/rover.tscn" id="12_nmkmc"]
+
+[node name="Hab" type="Node2D" groups=["habs"]]
+scale = Vector2(1.25, 1.25)
+script = ExtResource("1_ayqer")
+habitation_module_scene = ExtResource("2_0dk7t")
+airlock_scene = ExtResource("3_8uysj")
+rover_dock_scene = ExtResource("4_ylgtq")
+oxygenator_scene = ExtResource("5_p3sg6")
+solar_panel_scene = ExtResource("4_4oeur")
+rock_grinder_scene = ExtResource("5_dfjcb")
+RTG_scene = ExtResource("8_u7gu6")
+drone_pad_scene = ExtResource("9_bf8cw")
+farm_scene = ExtResource("6_1fllo")
+suit_supplier_scene = ExtResource("11_gd1mg")
+rover_scene = ExtResource("12_nmkmc")

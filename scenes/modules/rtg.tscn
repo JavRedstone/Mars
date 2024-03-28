@@ -1,0 +1,110 @@
+[gd_scene load_steps=8 format=3 uid="uid://necib3w0vm5k"]
+
+[ext_resource type="Script" path="res://scripts/modules/rtg.gd" id="1_wq6cg"]
+[ext_resource type="Texture2D" uid="uid://bxqdjlrqtt83" path="res://assets/objects/hab/rtg/radioisotope_thermoelectric_generator.png" id="2_6ytah"]
+[ext_resource type="Texture2D" uid="uid://d1m86e4nhsh8e" path="res://assets/objects/light/uniform_light.png" id="2_vrwau"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_213w1"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_obgqr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6ytah")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3mumq"]
+polygon = PackedVector2Array(-20, -48, -20, -232, -15, -241, -8, -245, 0, -247, 8, -245, 15, -241, 20, -231, 20, -48)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v8soj"]
+radius = 360.0
+
+[node name="RTG" type="StaticBody2D" groups=["habs", "rtgs"]]
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_wq6cg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_213w1")
+sprite_frames = SubResource("SpriteFrames_obgqr")
+
+[node name="Arm1CollisionPolygon" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm2CollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = 0.785398
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm3CollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm4CollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = 2.35619
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm5CollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = 3.14159
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm6CollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = -2.35619
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm7CollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = -1.5708
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm8CollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = -0.785398
+polygon = PackedVector2Array(0, -247, -8, -245, -15, -241, -20, -232, -20, -48, 20, -48, 20, -231, 15, -241, 8, -245)
+
+[node name="Arm1LightOccluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="Arm2LightOccluder" type="LightOccluder2D" parent="."]
+rotation = 0.785398
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="Arm3LightOccluder" type="LightOccluder2D" parent="."]
+rotation = 1.5708
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="Arm4LightOccluder" type="LightOccluder2D" parent="."]
+rotation = 2.35619
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="Arm5LightOccluder" type="LightOccluder2D" parent="."]
+rotation = 3.14159
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="Arm6LightOccluder" type="LightOccluder2D" parent="."]
+rotation = -2.35619
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="Arm7LightOccluder" type="LightOccluder2D" parent="."]
+rotation = -1.5708
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="Arm8LightOccluder" type="LightOccluder2D" parent="."]
+rotation = -0.785398
+occluder = SubResource("OccluderPolygon2D_3mumq")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("2_vrwau")
+texture_scale = 0.5
+
+[node name="RTGArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RTGArea"]
+shape = SubResource("CircleShape2D_v8soj")
+
+[connection signal="body_entered" from="RTGArea" to="." method="_on_rtg_area_body_entered"]
+[connection signal="body_exited" from="RTGArea" to="." method="_on_rtg_area_body_exited"]

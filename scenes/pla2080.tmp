@@ -1,0 +1,126 @@
+[gd_scene load_steps=16 format=3 uid="uid://cwxrgiw2wc5hb"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_a7t1g"]
+[ext_resource type="Texture2D" uid="uid://d17ibstd5qa4j" path="res://assets/objects/player/player.png" id="1_i1ede"]
+[ext_resource type="PackedScene" uid="uid://bsx3jopqtiv18" path="res://scenes/ui.tscn" id="2_j0fco"]
+[ext_resource type="Texture2D" uid="uid://7mgupfs63p2i" path="res://assets/particles/dust/dust.png" id="3_6cj8v"]
+[ext_resource type="Texture2D" uid="uid://c61as2lbfcg" path="res://assets/objects/light/direct_light.png" id="5_eqlau"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_n264e"]
+absorbent = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_143cs"]
+light_mode = 2
+
+[sub_resource type="Curve" id="Curve_i1sic"]
+_data = [Vector2(0, 0.518182), 0.0, 0.0, 0, 0, Vector2(0.246988, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fw0t1"]
+curve = SubResource("Curve_i1sic")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l784l"]
+emission_shape = 1
+emission_sphere_radius = 16.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.15
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_fw0t1")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uvyhx"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a24x4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_i1ede")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ssjjy"]
+size = Vector2(2000, 1500)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_37rnl"]
+size = Vector2(40, 200)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_u7yn8"]
+polygon = PackedVector2Array(-36, -28, -35, -31, -33, -34, -29, -36, -25, -35, -22, -32, -21, -31, -19, -24, -11, -29, -3, -30, 6, -30, 16, -26, 19, -24, 23, -34, 26, -36, 30, -36, 33, -34, 36, -29, 30, -6, 31, 4, 28, 13, 24, 20, 18, 25, 18, 31, 16, 35, 12, 36, -14, 36, -17, 34, -18, 30, -18, 25, -25, 19, -28, 12, -30, 5, -31, -3, -30, -6)
+
+[node name="Player" type="RigidBody2D" groups=["players"]]
+z_index = 2
+z_as_relative = false
+mass = 80.0
+physics_material_override = SubResource("PhysicsMaterial_n264e")
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("1_a7t1g")
+ui_scene = ExtResource("2_j0fco")
+
+[node name="WalkingParticleEmitter" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_143cs")
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_l784l")
+texture = ExtResource("3_6cj8v")
+lifetime = 3.0
+fixed_fps = 60
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_uvyhx")
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_a24x4")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = -1.5708
+polygon = PackedVector2Array(-36, -14.0001, -36, 14, -35.0001, 15.9999, -31.0001, 17.9999, -25.0001, 17.9999, -21.0001, 22.9999, -15.0001, 26.9999, -9.00011, 30, -0.00011222, 31, 6.99989, 30, 27.9999, 36.0001, 31, 35, 34, 33, 35.9999, 30.0001, 35.9999, 26.0001, 33.9999, 23.0001, 28.9999, 21.0001, 23.9999, 19.0001, 27, 14, 30, 7, 31, 0, 30, -7, 28, -13, 25, -18, 24.0001, -18.9999, 31.0001, -20.9999, 34.0001, -22.9999, 35.0001, -24.9999, 36, -28, 36, -31, 34, -34, 29.0001, -35.9999, 25.0001, -34.9999, 6.00011, -30, 0.00011222, -31, -9, -30, -16, -27, -21, -24, -24.9999, -18.0001, -29.9999, -18.0001, -33.9999, -17.0001)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+
+[node name="RenderArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RenderArea"]
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_ssjjy")
+
+[node name="ActionArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionArea"]
+position = Vector2(1, -100)
+shape = SubResource("RectangleShape2D_37rnl")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_u7yn8")
+occluder_light_mask = 0
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+enabled = false
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("5_eqlau")
+offset = Vector2(0, -190)
+
+[connection signal="area_entered" from="RenderArea" to="." method="_on_render_area_area_entered"]
+[connection signal="area_exited" from="RenderArea" to="." method="_on_render_area_area_exited"]
+[connection signal="body_entered" from="RenderArea" to="." method="_on_render_area_body_entered"]
+[connection signal="body_exited" from="RenderArea" to="." method="_on_render_area_body_exited"]
+[connection signal="area_entered" from="ActionArea" to="." method="_on_action_area_area_entered"]
+[connection signal="area_exited" from="ActionArea" to="." method="_on_action_area_area_exited"]
+[connection signal="body_entered" from="ActionArea" to="." method="_on_action_area_body_entered"]
+[connection signal="body_exited" from="ActionArea" to="." method="_on_action_area_body_exited"]

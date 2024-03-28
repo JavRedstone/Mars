@@ -1,0 +1,231 @@
+[gd_scene load_steps=17 format=3 uid="uid://isi6vqvmtjrk"]
+
+[ext_resource type="Script" path="res://scripts/modules/habitation_module.gd" id="1_016on"]
+[ext_resource type="Texture2D" uid="uid://c44funb64kyoy" path="res://assets/objects/hab/habitation_module/habitation module.png" id="2_3qtwr"]
+[ext_resource type="Texture2D" uid="uid://d1m86e4nhsh8e" path="res://assets/objects/light/uniform_light.png" id="3_uaos2"]
+[ext_resource type="Texture2D" uid="uid://bn4pvgdinbfoj" path="res://assets/particles/air/air.png" id="4_5htr5"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4i1lh"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qq6pe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3qtwr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ybtkw"]
+polygon = PackedVector2Array(-360, -94, -310, -94, -293, -138, -265, -185, -233, -225, -191, -262, -148, -287, -94, -309, -94, -361, -59, -361, -59, -283, -102, -273, -148, -249, -193, -218, -230, -174, -264, -118, -283, -59, -360, -59)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n7q8a"]
+size = Vector2(188, 60)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qp3el"]
+radius = 100.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_qel0f"]
+light_mode = 2
+
+[sub_resource type="Curve" id="Curve_am1u6"]
+_data = [Vector2(0.0138504, 0), 0.0, 0.0, 0, 0, Vector2(0.254848, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_p5wng"]
+curve = SubResource("Curve_am1u6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uyvqr"]
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 50.0
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 10.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1000.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.1
+scale_max = 0.25
+scale_curve = SubResource("CurveTexture_p5wng")
+turbulence_enabled = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gtoso"]
+light_mode = 2
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2c208"]
+light_mode = 2
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_o2dqd"]
+light_mode = 2
+
+[node name="HabitationModule" type="StaticBody2D" groups=["habitation_modules", "habs"]]
+z_as_relative = false
+script = ExtResource("1_016on")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_4i1lh")
+sprite_frames = SubResource("SpriteFrames_qq6pe")
+
+[node name="LeftTopCollisionPolygon" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-59, -283, -59, -318, -94, -309, -148, -288, -191, -261, -232, -226, -264, -186, -293, -138, -309, -94, -309, -94, -318, -59, -283, -59, -263, -118, -230, -172, -193, -214, -148, -247, -102, -269)
+
+[node name="RightTopCollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+polygon = PackedVector2Array(-59, -283, -59, -318, -94, -309, -148, -288, -191, -261, -232, -226, -264, -186, -293, -138, -309, -94, -309, -94, -318, -59, -283, -59, -263, -118, -230, -172, -193, -214, -148, -247, -102, -269)
+
+[node name="LeftBottomCollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = -1.5708
+polygon = PackedVector2Array(-59, -283, -59, -318, -94, -309, -148, -288, -191, -261, -232, -226, -264, -186, -293, -138, -309, -94, -309, -94, -318, -59, -283, -59, -263, -118, -230, -172, -193, -214, -148, -247, -102, -269)
+
+[node name="RightBottomCollisionPolygon" type="CollisionPolygon2D" parent="."]
+rotation = 3.14159
+polygon = PackedVector2Array(-59, -283, -59, -318, -94, -309, -148, -288, -191, -261, -232, -226, -264, -186, -293, -138, -309, -94, -309, -94, -318, -59, -283, -59, -263, -118, -230, -172, -193, -214, -148, -247, -102, -269)
+
+[node name="HabitationModuleArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HabitationModuleArea"]
+scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-720, -118, -720, 118, -566, 118, -532, 222, -488, 309, -429, 386, -356, 451, -277, 500, -201, 542, -118, 566, -118, 719, 118, 719, 118, 566, 202, 538, 294, 495, 384, 430, 456, 348, 520, 237, 568, 116, 717, 116, 718, -117, 568, -117, 540, -200, 494, -292, 431, -386, 347, -458, 239, -528, 118, -566, 118, -720, -118, -720, -118, -568, -209, -543, -294, -499, -385, -435, -461, -342, -528, -236, -566, -118)
+
+[node name="LeftTopLightOccluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_ybtkw")
+occluder_light_mask = 3
+
+[node name="RightTopLightOccluder" type="LightOccluder2D" parent="."]
+rotation = 1.5708
+occluder = SubResource("OccluderPolygon2D_ybtkw")
+occluder_light_mask = 3
+
+[node name="LeftBottomLightOccluder" type="LightOccluder2D" parent="."]
+rotation = -1.5708
+occluder = SubResource("OccluderPolygon2D_ybtkw")
+occluder_light_mask = 3
+
+[node name="RightBottomLightOccluder" type="LightOccluder2D" parent="."]
+rotation = 3.14159
+occluder = SubResource("OccluderPolygon2D_ybtkw")
+occluder_light_mask = 3
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+enabled = false
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("3_uaos2")
+texture_scale = 2.25
+
+[node name="TopAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopAdditionArea"]
+position = Vector2(0, -390)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="RightAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightAdditionArea"]
+position = Vector2(0, -390)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="BottomAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomAdditionArea"]
+position = Vector2(0, -390)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="LeftAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftAdditionArea"]
+position = Vector2(0, -390)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="LeftTopAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+rotation = -0.785398
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftTopAdditionArea"]
+position = Vector2(0, -360)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="RightTopAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+rotation = 0.785398
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightTopAdditionArea"]
+position = Vector2(0, -360)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="LeftBottomAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+rotation = -2.35619
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBottomAdditionArea"]
+position = Vector2(0, -360)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="RightBottomAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+rotation = 2.35619
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBottomAdditionArea"]
+position = Vector2(0, -360)
+shape = SubResource("RectangleShape2D_n7q8a")
+
+[node name="CenterAdditionArea" type="Area2D" parent="." groups=["module_addition_areas"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterAdditionArea"]
+shape = SubResource("CircleShape2D_qp3el")
+
+[node name="TopAirParticleEmitter" type="GPUParticles2D" parent="."]
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_qel0f")
+position = Vector2(0, -280)
+emitting = false
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_uyvqr")
+texture = ExtResource("4_5htr5")
+lifetime = 0.5
+fixed_fps = 60
+
+[node name="RightAirParticleEmitter" type="GPUParticles2D" parent="."]
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_gtoso")
+position = Vector2(280, 0)
+rotation = 1.5708
+emitting = false
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_uyvqr")
+texture = ExtResource("4_5htr5")
+lifetime = 0.5
+fixed_fps = 60
+
+[node name="BottomAirParticleEmitter" type="GPUParticles2D" parent="."]
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_2c208")
+position = Vector2(0, 280)
+rotation = 3.14159
+emitting = false
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_uyvqr")
+texture = ExtResource("4_5htr5")
+lifetime = 0.5
+fixed_fps = 60
+
+[node name="LeftAirParticleEmitter" type="GPUParticles2D" parent="."]
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_o2dqd")
+position = Vector2(-280, 0)
+rotation = -1.5708
+emitting = false
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_uyvqr")
+texture = ExtResource("4_5htr5")
+lifetime = 0.5
+fixed_fps = 60
+
+[connection signal="body_entered" from="HabitationModuleArea" to="." method="_on_habitation_module_area_body_entered"]
+[connection signal="body_exited" from="HabitationModuleArea" to="." method="_on_habitation_module_area_body_exited"]

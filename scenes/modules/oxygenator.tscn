@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://di08rvubifpgs"]
+
+[ext_resource type="Script" path="res://scripts/modules/oxygenator.gd" id="1_5pqwv"]
+[ext_resource type="Texture2D" uid="uid://cjvknt6fc3g7k" path="res://assets/objects/hab/oxygenator/oxygenator_1.png" id="2_sc181"]
+[ext_resource type="Texture2D" uid="uid://g5rw30tjfgf0" path="res://assets/objects/hab/oxygenator/oxygenator.png" id="3_2wg5g"]
+[ext_resource type="Texture2D" uid="uid://q1hoixe7hbu0" path="res://assets/objects/light/uniform_green_light.png" id="3_ktjix"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vhxsi"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_678qh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_sc181")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2wg5g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_fkkpd"]
+polygon = PackedVector2Array(-55, -94, -55, 94, 57, 94, 65, 91, 70, 86, 74, 79, 74, -78, 55, -59, 55, 59, -20, 59, -26, 59, -32, 55, -36, 51, -38, 43, -38, -44, -37, -50, -33, -55, -27, -58, -20, -59, 55, -59, 74, -78, 72, -84, 66, -90, 59, -94, 44.2821, -94)
+
+[node name="Oxygenator" type="StaticBody2D" groups=["habs", "oxygenators"]]
+script = ExtResource("1_5pqwv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_vhxsi")
+sprite_frames = SubResource("SpriteFrames_678qh")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-55, -94, 59, -94, 66, -90, 72, -84, 74, -78, 74, -78, 74, 79, 70, 86, 65, 91, 57, 94, -55, 94)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_fkkpd")
+occluder_light_mask = 3
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("3_ktjix")
+texture_scale = 0.4

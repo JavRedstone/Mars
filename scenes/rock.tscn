@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3 uid="uid://dl5c004gpjgrq"]
+
+[ext_resource type="Script" path="res://scripts/rock.gd" id="1_6qkb1"]
+[ext_resource type="Texture2D" uid="uid://d4lgaj7jx83yd" path="res://assets/particles/explosion/explosion.png" id="2_i61o8"]
+[ext_resource type="Texture2D" uid="uid://ch3tjbrrgqo5m" path="res://assets/objects/rock/rock.png" id="2_qgf0w"]
+
+[sub_resource type="Curve" id="Curve_1rkuj"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(0.244526, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_i1a5w"]
+curve = SubResource("Curve_1rkuj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7qwny"]
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 1000.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.15
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_i1a5w")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wrhdc"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_woumx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_qgf0w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lljee"]
+radius = 360.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_j38ys"]
+polygon = PackedVector2Array(0, -72, 18, -70, 35, -63, 51, -51, 62, -37, 70, -18, 72, -1, 70, 16, 63, 34, 53, 49, 36, 62, 19, 68, 0, 72, -21, 69, -39, 60, -55, 47, -65, 32, -70, 19, -72, 0, -70, -18, -62, -37, -50, -52, -37, -63, -19, -70)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i5oo5"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath(".:scale")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+
+[node name="Rock" type="RigidBody2D" groups=["rocks"]]
+z_index = 1
+z_as_relative = false
+mass = 1000.0
+gravity_scale = 0.0
+script = ExtResource("1_6qkb1")
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 25
+process_material = SubResource("ParticleProcessMaterial_7qwny")
+texture = ExtResource("2_i61o8")
+lifetime = 3.0
+explosiveness = 1.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_wrhdc")
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_woumx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.2, 0.2)
+shape = SubResource("CircleShape2D_lljee")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_j38ys")
+occluder_light_mask = 3
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_i5oo5")

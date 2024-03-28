@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://dq14mle3wcpfc"]
+
+[ext_resource type="Texture2D" uid="uid://b2rrkipt5mbjn" path="res://assets/objects/hab/suit_supplier/suit_supplier_1.png" id="1_ef4xa"]
+[ext_resource type="Script" path="res://scripts/modules/suit_supplier.gd" id="1_m85vm"]
+[ext_resource type="Texture2D" uid="uid://c4rx0ty2eqoei" path="res://assets/objects/hab/suit_supplier/suit_supplier.png" id="2_63d1i"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_a1qkt"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p6de6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ef4xa")
+}],
+"loop": true,
+"name": &"charging",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_63d1i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xfn0b"]
+radius = 360.0
+
+[node name="SuitSupplier" type="Area2D" groups=["habs", "suit_suppliers"]]
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_m85vm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_a1qkt")
+sprite_frames = SubResource("SpriteFrames_p6de6")
+animation = &"charging"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xfn0b")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

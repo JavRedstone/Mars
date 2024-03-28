@@ -1,0 +1,120 @@
+[gd_scene load_steps=15 format=3 uid="uid://cdvldk61ngwv1"]
+
+[ext_resource type="Script" path="res://scripts/modules/airlock.gd" id="1_et6et"]
+[ext_resource type="Texture2D" uid="uid://b87yscggtn3s5" path="res://assets/objects/hab/airlock/airlock.png" id="2_41gid"]
+[ext_resource type="Texture2D" uid="uid://c06l30b4843s7" path="res://assets/objects/hab/airlock/airlock_door_1.png" id="3_84lpx"]
+[ext_resource type="Texture2D" uid="uid://o8dgqypulpk5" path="res://assets/objects/hab/airlock/airlock_door_2.png" id="4_ms2vr"]
+[ext_resource type="Texture2D" uid="uid://d1m86e4nhsh8e" path="res://assets/objects/light/uniform_light.png" id="5_oo4n0"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7orth"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_45skg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_41gid")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xhnic"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5y77p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_84lpx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8tg0e"]
+light_mode = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u86vo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ms2vr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_q0iu8"]
+polygon = PackedVector2Array(-55.5, -94, 40, -94, 46, -92, 50, -89, 54, -84, 55.5, -80, 55.5, -59, -55.5, -59)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_3gudf"]
+polygon = PackedVector2Array(-55.5, -94, -55.5, 94, -37, 94, -37, -94)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7rce5"]
+polygon = PackedVector2Array(42, 93, 42, -94, 46, -92, 50, -89, 54, -84, 55.5, -79, 55.5, 80, 53, 86, 49, 90, 45, 93)
+
+[node name="Airlock" type="StaticBody2D" groups=["airlocks", "habs"]]
+z_as_relative = false
+script = ExtResource("1_et6et")
+
+[node name="MainAirlock" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_7orth")
+sprite_frames = SubResource("SpriteFrames_45skg")
+
+[node name="AirlockDoor1" type="AnimatedSprite2D" parent="."]
+z_index = 3
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_xhnic")
+sprite_frames = SubResource("SpriteFrames_5y77p")
+
+[node name="AirlockDoor2" type="AnimatedSprite2D" parent="."]
+z_index = 3
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_8tg0e")
+sprite_frames = SubResource("SpriteFrames_u86vo")
+
+[node name="TopCollisionPolygon" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-111, -188, 82, -188, 92, -185, 101, -178, 107, -170, 111, -160, 111, -118, -111, -118)
+
+[node name="BottomCollisionPolygon" type="CollisionPolygon2D" parent="."]
+scale = Vector2(0.5, -0.5)
+polygon = PackedVector2Array(-111, -188, 80, -188, 92, -185, 101, -178, 107, -170, 111, -160, 111, -118, -111, -118)
+
+[node name="AirlockArea" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AirlockArea"]
+scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(-111, -118, -111, 118, 111, 118, 111, -118)
+
+[node name="TopLightOccluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_q0iu8")
+occluder_light_mask = 3
+
+[node name="BottomLightOccluder" type="LightOccluder2D" parent="."]
+scale = Vector2(1, -1)
+occluder = SubResource("OccluderPolygon2D_q0iu8")
+occluder_light_mask = 3
+
+[node name="LeftLightOccluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_3gudf")
+occluder_light_mask = 3
+
+[node name="RightLightOccluder" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_7rce5")
+occluder_light_mask = 3
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+enabled = false
+range_z_min = 0
+range_z_max = 2
+shadow_enabled = true
+texture = ExtResource("5_oo4n0")
+texture_scale = 0.5
+
+[connection signal="body_entered" from="AirlockArea" to="." method="_on_airlock_area_body_entered"]
+[connection signal="body_exited" from="AirlockArea" to="." method="_on_airlock_area_body_exited"]

@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://cc7n77tm7lqxk"]
+
+[ext_resource type="Script" path="res://scripts/drone.gd" id="1_7uo2q"]
+[ext_resource type="Texture2D" uid="uid://0yj4b7yg7rsk" path="res://assets/objects/drone/drone.png" id="1_qhjqh"]
+[ext_resource type="Texture2D" uid="uid://cw3jnv7or1pgj" path="res://assets/objects/drone/drone 1.png" id="2_jjl53"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_llf58"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_qhjqh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jjl53")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_qhjqh")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 30.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_yh42y"]
+polygon = PackedVector2Array(-105, -66, -107, -56, -107, 58, -105, 65, -65, 105, -56, 107, 56, 107, 66, 105, 105, 65, 107, 54, 107, -54, 105, -65, 64, -105, 56, -107, -54, -107, -65, -105)
+
+[node name="Drone" type="RigidBody2D" groups=["drones", "vehicles"]]
+z_index = 1000
+z_as_relative = false
+mass = 500.0
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("1_7uo2q")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_llf58")
+animation = &"moving"
+frame = 1
+frame_progress = 0.309662
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, -107, -54, -107, -65, -105, -74, -114, -114, -75, -105, -66, -107, -57, -107, 58, -105, 65, -114, 75, -75, 115, -65, 105, -56, 107, 56, 107, 66, 105, 74, 114, 115, 75, 105, 65, 107, 55, 107, -54, 105, -65, 115, -75, 76, -116, 64, -105, 56, -107)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_yh42y")
+occluder_light_mask = 3
